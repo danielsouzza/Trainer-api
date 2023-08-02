@@ -18,6 +18,19 @@ services:
         depends_on:
             - mysql
             - redis
+
+    nginx:
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - "80:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        networks:
+            - sail
+
+
     mysql:
         image: 'mysql/mysql-server:8.0'
         restart: unless-stopped
@@ -30,9 +43,8 @@ services:
             MYSQL_DATABASE: '${DB_DATABASE}'
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
-            - 'sail-mysql:/var/lib/mysql'
+             - ./.docker/mysql/dbdata:/var/lib/mysql
         networks:
             - sail
         
