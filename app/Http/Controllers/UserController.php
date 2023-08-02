@@ -16,6 +16,7 @@ use Illuminate\Http\Response;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use mysql_xdevapi\Exception;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 
@@ -49,7 +50,6 @@ class UserController extends Controller
 
     public function me(Request $request){
         $user = $this->requestUser($request);
-        $user['userable'] = $user->userable;
         return response($user,Response::HTTP_OK);
     }
 
@@ -90,6 +90,7 @@ class UserController extends Controller
                 'modify-program',
             ];
         }
-        return $user->createToken($request->device_name,$abilities);
+        $token = $user->createToken($request->device_name,$abilities);
+        return response(["accessToken"=>$token->plainTextToken],ResponseAlias::HTTP_OK  );
     }
 }

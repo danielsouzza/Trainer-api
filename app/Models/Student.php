@@ -21,7 +21,6 @@ class Student extends Model
         'image',
         'description',
         'birthday',
-        'user_id'
     ];
 
     protected $casts = [
