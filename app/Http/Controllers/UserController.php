@@ -29,18 +29,22 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request): Response{
         $data = $request->validated();
-        if($request->userable_type == 'student'){
-            $userable = new StudentController();
-            $data['userable_type'] = Student::class;
-        }else{
+        if($request->userable_type == 'personal'){
             $userable = new PersonalTrainerController();
             $data['userable_type'] = PersonalTrainer::class;
+        }else{
+            $userable = new StudentController();
+            $data['userable_type'] = Student::class;
+
         }
 
         $userable = $userable->store($data);
         $data['userable_id'] = $userable->id;
-        $user = User::create($data);
-        return response([$user, $userable], ResponseAlias::HTTP_ACCEPTED);
+        User::create($data);
+        return response([
+            "success" => true,
+            "message"=> "Registro criado com sucesso"
+        ], ResponseAlias::HTTP_ACCEPTED);
     }
 
     public function show(string $id){

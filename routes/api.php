@@ -22,11 +22,11 @@ Route::post('/auth', [UserController::class, 'auth']); // Authenticate user
 Route::prefix('users')->controller(UserController::class)
     ->group(function (){
     Route::post('/','store'); // Create a new login
-    Route::get('/{id}','show'); // show just one user
     Route::get('/','index'); // Show all users of database
 
     Route::middleware('auth:sanctum')->group(function (){
         Route::get('/me','me'); // show token owner user
+        Route::get('/{id}','show'); // show just one user
         Route::patch('/me','update'); // update token owner user
         Route::delete('/me','destroy'); // delete token owner user
     });
