@@ -15,6 +15,6 @@ class Controller extends BaseController
     public function requestUser($request){
         $token = $request->bearerToken();
         $ownerToken = PersonalAccessToken::findToken($token);
-        return User::findOrFail($ownerToken->tokenable_id)->userable;
+        return User::findOrFail($ownerToken->tokenable_id);
     }
 }
