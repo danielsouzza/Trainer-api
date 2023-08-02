@@ -23,7 +23,7 @@ services:
         restart: unless-stopped
         container_name: trainer-db
         ports:
-            - '${FORWARD_DB_PORT:-3306}:3306'
+            - 3306:3306
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: '%'
