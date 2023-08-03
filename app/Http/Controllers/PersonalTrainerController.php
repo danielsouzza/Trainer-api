@@ -7,6 +7,7 @@ use App\Models\ProgramExercise;
 use App\Models\Student;
 use App\Models\StudentProgram;
 use App\Models\TrainingProgram;
+use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -17,7 +18,9 @@ class PersonalTrainerController extends Controller
         return PersonalTrainer::all();
     }
     public function store(array $data){
-        return PersonalTrainer::create($data);
+        $data["graduation_year"] =  DateTime::createFromFormat('d/m/Y', $data["graduation_year"])->format('Y-m-d');
+        $data["birthday"] =  DateTime::createFromFormat('d/m/Y', $data["birthday"])->format('Y-m-d');
+        return PersonalTrainer::createOrFail($data);
     }
 
     public function myStudents(Request $request){

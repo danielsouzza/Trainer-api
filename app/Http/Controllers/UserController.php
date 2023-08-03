@@ -28,23 +28,29 @@ class UserController extends Controller
     }
 
     public function store(StoreUserRequest $request): Response{
-        $data = $request->validated();
-        if($request->userable_type == 'personal'){
-            $userable = new PersonalTrainerController();
-            $data['userable_type'] = PersonalTrainer::class;
-        }else{
-            $userable = new StudentController();
-            $data['userable_type'] = Student::class;
+        try {
+            $data = $request->validated();
+            if($request->userable_type == 'personal'){
+                $userable = new PersonalTrainerController();
+                $data['userable_type'] = PersonalTrainer::class;
+            }else{
+                $userable = new StudentController();
+                $data['userable_type'] = Student::class;
+            }
 
+            $userable = $userable->store($data);
+            $data['userable_id'] = $userable->id;
+            User::create($data);
+            return response([
+                "success" => true,
+                "message"=> "Registro criado com sucesso"
+            ], ResponseAlias::HTTP_ACCEPTED);
+        }catch (Exception $e){
+            return response([
+                "success" => false,
+                "message"=> "Registro não criado com sucesso"
+            ], ResponseAlias::HTTP_CONFLICT);
         }
-
-        $userable = $userable->store($data);
-        $data['userable_id'] = $userable->id;
-        User::create($data);
-        return response([
-            "success" => true,
-            "message"=> "Registro criado com sucesso"
-        ], ResponseAlias::HTTP_ACCEPTED);
     }
 
     public function show(string $id){
@@ -54,7 +60,7 @@ class UserController extends Controller
 
     public function me(Request $request){
         $user = $this->requestUser($request);
-        $userable = $user->userable;
+        $user["userable"] = $user->userable;
         return response([$user],Response::HTTP_OK);
     }
 

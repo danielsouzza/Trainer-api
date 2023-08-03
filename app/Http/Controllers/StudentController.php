@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,7 @@ class StudentController extends Controller
         return Student::all();
     }
     public function store(array $data){
+        $data["birthday"] =  DateTime::createFromFormat('d/m/Y', $data["birthday"])->format('Y-m-d');
         return Student::create($data);
     }
     public function show(string $id){
