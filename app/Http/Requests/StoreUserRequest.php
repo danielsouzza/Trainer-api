@@ -55,7 +55,7 @@ class StoreUserRequest extends FormRequest
             ],
 
         ];
-        if(str_contains($this->userable_type,'Personal')){
+        if(str_contains($this->userable_type,'personal')){
             $rules['cref'] = [
                 'required',
                 'unique:personal_trainers'
