@@ -60,8 +60,8 @@ class UserController extends Controller
 
     public function me(Request $request){
         $user = $this->requestUser($request);
-        $user["userable"] = $user->userable;
-        return response($user,Response::HTTP_OK);
+        $user = array_merge($user, $user->userable);
+        return response($user, ResponseAlias::HTTP_OK);
     }
 
     public function update(UpdateUserRequest $request,){
