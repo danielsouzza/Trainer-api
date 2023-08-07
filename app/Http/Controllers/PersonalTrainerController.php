@@ -36,6 +36,7 @@ class PersonalTrainerController extends Controller
         return response($students, ResponseAlias::HTTP_OK);
     }
 
+    // Rever algumas coisas 
     public function addStudent(Request $request, string $studentId, string $programId){
         $data = $request->all();
         $user = $this->requestUser($request);
