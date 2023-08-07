@@ -60,7 +60,7 @@ class UserController extends Controller
 
     public function me(Request $request){
         $user = $this->requestUser($request);
-        $user = array_merge(get_object_vars($user), $user->userable);
+        $user = array_merge(get_object_vars($user), get_object_vars($user->userable));
         return response($user, ResponseAlias::HTTP_OK);
     }
 
