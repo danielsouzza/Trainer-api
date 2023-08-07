@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\PersonalTrainer;
-use App\Models\ProgramExercise;
 use App\Models\Student;
 use App\Models\StudentProgram;
 use App\Models\TrainingProgram;
@@ -20,7 +19,7 @@ class PersonalTrainerController extends Controller
     public function store(array $data){
         $data["graduation_year"] =  DateTime::createFromFormat('d/m/Y', $data["graduation_year"])->format('Y-m-d');
         $data["birthday"] =  DateTime::createFromFormat('d/m/Y', $data["birthday"])->format('Y-m-d');
-        return PersonalTrainer::createOrFail($data);
+        return PersonalTrainer::create($data);
     }
 
     public function myStudents(Request $request){
