@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('cref');
             $table->string('institution');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->date('birthday');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->date('graduation_year');
             $table->timestamps();
         });
