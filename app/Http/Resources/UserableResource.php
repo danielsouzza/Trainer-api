@@ -24,9 +24,10 @@ class UserableResource extends JsonResource
             'description' => $this['userable']->description,
             'birthday' => $this['userable']->birthday,
             'image' => $this['userable']->image,
+            'userable_type' => $this->userable_type,
             'userable_id' => $this['userable']->id
         ];
-        if (str_contains($request->userable_type,'Personal')){
+        if (str_contains($this->userable_type,'Personal')){
             $resource['institution'] = $this['userable']->instituicao;
             $resource['cref'] = $this['userable']->cref;
             $resource['graduation_year'] = $this['userable']->graduation_year;

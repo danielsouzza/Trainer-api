@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('series');
             $table->integer('repetition');
-            $table->foreignId('exercise_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('exercise_id')->constrained("exercises")->cascadeOnDelete();
             $table->foreignId('program_id')->constrained('training_programs')->cascadeOnDelete();
             $table->timestamps();
         });

@@ -37,6 +37,7 @@ class TrainingProgramController extends Controller
         $data['personal_id'] = $user->id;
         $program = TrainingProgram::create($data);
 
+
         $exercises = [];
         foreach ($data['exercises'] as $item){
             $item['program_id'] = $program->id;
@@ -58,7 +59,7 @@ class TrainingProgramController extends Controller
         }
 
         $program->update($data);
-        foreach ($data['program_exercise'] as $idx => $item){
+        foreach ($data['exercises'] as $idx => $item){
             $id = $item['id'];
             ProgramExercise::where('id',$id)->update($item);
         }

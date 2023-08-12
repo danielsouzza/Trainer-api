@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('weekday');
             $table->foreignId('personal_id')->constrained('personal_trainers')->cascadeOnDelete();
+            $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
             $table->timestamps();
         });
     }
