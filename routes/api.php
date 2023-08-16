@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\PersonalTrainerController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TrainingProgramController;
@@ -18,6 +19,12 @@ use App\Http\Controllers\UserController;
 */
 
 Route::post('/auth', [UserController::class, 'auth']); // Authenticate user
+
+Route::controller(ExerciseController::class)->group(function (){
+    Route::get("/exercise","show");
+    Route::post("/exercise","store");
+
+});
 
 Route::prefix('users')->controller(UserController::class)
     ->group(function (){
