@@ -11,7 +11,6 @@ class ExerciseController extends Controller
     public function store(Request $request){
         try {
             $data = $request->all();
-//            dd($data);
             foreach ($data as $exercise){
                 Exercise::create($exercise);
             }
