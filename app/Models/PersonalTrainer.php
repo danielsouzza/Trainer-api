@@ -36,4 +36,8 @@ class PersonalTrainer extends Model
     public function trainingProgram(): HasMany{
         return $this->hasMany(TrainingProgram::class,'personal_id');
     }
+
+    public function myStudents(): HasMany{
+        return $this->hasMany(TrainerStudents::class,"personal_id");
+    }
 }

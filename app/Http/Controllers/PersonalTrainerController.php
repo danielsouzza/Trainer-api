@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\PersonalTrainer;
 use App\Models\Student;
-use App\Models\StudentProgram;
+//use App\Models\StudentProgram;
+use App\Models\TrainerStudents;
 use App\Models\TrainingProgram;
 use DateTime;
 use Illuminate\Database\Eloquent\Collection;
@@ -24,50 +25,28 @@ class PersonalTrainerController extends Controller
 
     public function myStudents(Request $request){
         $user = $this->requestUser($request);
-        $programs = $user->trainingProgram;
-        $students = [];
-        foreach ($programs as $program){
-            foreach ($program->studentPrograms as $relation){
-                $student = $relation->student;
-                $student['programs'] = $relation->program_id;
-                $students[] = $student;
-            }
-        }
+        $students = $user->userable->myStudents;
         return response($students, ResponseAlias::HTTP_OK);
     }
 
-    // Rever algumas coisas 
-    public function addStudent(Request $request, string $studentId, string $programId){
-        $data = $request->all();
-        $user = $this->requestUser($request);
-        $program = TrainingProgram::findOrFail($programId);
+    // Rever algumas coisas
+    public function addStudent(Request $request, string $studentId){
+        $trainer = $this->requestUser($request)->userable;
         $student = Student::findOrFail($studentId);
+        $data["student_id"] = $student->id;
+        $data["personal_id"] = $trainer->id;
 
-        if($user->id != $program->personal_id){
-            return response([
-                'message'=>'Action not authorized'
-            ], ResponseAlias::HTTP_NOT_FOUND);
-        }
-
-        $data['student_id'] = $student->id;
-        $data['program_id'] = $program->id;
-        $studentProgram = StudentProgram::create($data);
-
-        return response($studentProgram, ResponseAlias::HTTP_ACCEPTED);
+        TrainerStudents::create($data);
+        return response([], ResponseAlias::HTTP_ACCEPTED);
     }
 
-    public function removeStudent(Request $request, string $studentProgramID){
-        $user = $this->requestUser($request);
-        $studentProgram = StudentProgram::findOrFail($studentProgramID);
-        $program = TrainingProgram::findOrFail($studentProgram->program_id);
-        if($user->id != $studentProgram->student_id || $user->id =! $program->personal_id){
-            return response([
-                'message'=>'Action not authorized'
-            ], ResponseAlias::HTTP_NOT_FOUND);
-        }
+    public function removeStudent(Request $request, string $trainerStudentID){
+        $trainer = $this->requestUser($request)->userable;
+        $trainerStudent = TrainerStudents::where([
+            "student_id"=>$trainerStudentID,
+            "personal_id"=>$trainer->id
 
-        $studentProgram->delete();
-
+        ])->delete();
         return response([], ResponseAlias::HTTP_NO_CONTENT);
     }
 

@@ -58,8 +58,8 @@ Route::middleware('auth:sanctum')->group(function (){
 
     Route::controller(PersonalTrainerController::class)->group(function (){
         Route::get('/trainer/students','myStudents'); // show all trainer's students
-        Route::post('/trainer/student/{studentId}/program/{programId}','addStudent'); // Add student to trainer's program
-        Route::delete('/trainer/student_program/{studentProgramID}','removeStudent'); // Remove student to trainer's program
+        Route::post('/trainer/student/{studentId}','addStudent'); // Add student to trainer's program
+        Route::delete('/trainer/student/{trainerStudent}','removeStudent'); // Remove student to trainer's program
     });
 });
 

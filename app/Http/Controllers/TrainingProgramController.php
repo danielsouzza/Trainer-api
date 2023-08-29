@@ -34,9 +34,8 @@ class TrainingProgramController extends Controller
     public function store(Request $request): ResponseAlias{
         $data = $request->all();
         $user = $this->requestUser($request);
-        $data['personal_id'] = $user->id;
+        $data['personal_id'] = $user->userable->id;
         $program = TrainingProgram::create($data);
-
 
         $exercises = [];
         foreach ($data['exercises'] as $item){
